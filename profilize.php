@@ -20,20 +20,21 @@ define('N_GRAM_COUNT', 400);
 
 function fetchdir($path, $callback = null) {
     $excludes = array('.', '..'); // directories to exclude
-
+	
+	$path = rtrim($path, DIRECTORY_SEPARATOR . '/');
     $files = scandir($path);
     $files = array_diff($files, $excludes);
 
     foreach ($files as $file) {
-        if (is_dir($path . '/' . $file))
-            fetchdir($path . '/' . $file, $callback);
+        if (is_dir($path . DIRECTORY_SEPARATOR . $file))
+            fetchdir($path . DIRECTORY_SEPARATOR . $file, $callback);
         // match only target extension files
         else if (!preg_match('/^.*\\' . EXTENSION_IN . '$/', $file))
             continue;
         else if (is_callable($callback, false, $call_name))
-            $call_name($path . '/' . $file);
+            $call_name($path . DIRECTORY_SEPARATOR . $file);
         else
-            echo($path . '/' . $file . "\n");
+            echo($path . DIRECTORY_SEPARATOR . $file . "\n");
     }
 }
 
@@ -52,10 +53,11 @@ function analyze($file) {
 
     $tokens = array();
     foreach ($words as $word) {
-        $word = '_' . $word . '_';
-        for ($i = 1; $i <= min(N_GRAM_LENGTH, strlen($word)); $i++) {
-            for ($j = 0; $j <= strlen($word) - $i; $j++) {
-                $token = strtolower(substr($word, $j, $i));
+        $word = '_' . strtolower($word) . '_';
+		$length = strlen($word);
+        for ($i = 1; $i <= min(N_GRAM_LENGTH, $length); $i++) {
+            for ($j = 0; $j <= $length - $i; $j++) {
+                $token = substr($word, $j, $i);
                 if (trim($token, '_'))
                     $tokens[] = $token;
             }
