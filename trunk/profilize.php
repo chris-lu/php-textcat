@@ -20,8 +20,8 @@ define('N_GRAM_COUNT', 400);
 
 function fetchdir($path, $callback = null) {
     $excludes = array('.', '..'); // directories to exclude
-	
-	$path = rtrim($path, DIRECTORY_SEPARATOR . '/');
+
+    $path = rtrim($path, DIRECTORY_SEPARATOR . '/');
     $files = scandir($path);
     $files = array_diff($files, $excludes);
 
@@ -38,7 +38,6 @@ function fetchdir($path, $callback = null) {
     }
 }
 
-
 /*
  *    Analysing text files using the N-Gram-Based Text Categorization
  *    You might need to generate/regenerate your own language files for better accuracy / other needs
@@ -54,7 +53,7 @@ function analyze($file) {
     $tokens = array();
     foreach ($words as $word) {
         $word = '_' . strtolower($word) . '_';
-		$length = strlen($word);
+        $length = strlen($word);
         for ($i = 1; $i <= min(N_GRAM_LENGTH, $length); $i++) {
             for ($j = 0; $j <= $length - $i; $j++) {
                 $token = substr($word, $j, $i);
