@@ -1,16 +1,21 @@
 <?php
 
-/*
- * Author: Christophe Dri
+/**
+ * profilize.php    Textcat profiler batch
+ * 
+ * Create the Ngrams based on text references.
  *
- *  Might be commented soon, or, please contribute.
+ * Please, contribute !
+ *
+ * @author Christophe Dri
  */
 
 define('DIR_INPUT', 'samples/');
 define('DIR_OUTPUT', 'languages/');
 define('EXTENSION_IN', '.txt');
 define('EXTENSION_OUT', '.lng');
-define('N_GRAM_LENGTH', 6);
+define('N_GRAM_MIN_LENGTH', 1);
+define('N_GRAM_MAX_LENGTH', 6);
 define('N_GRAM_COUNT', 400);
 
 
@@ -54,7 +59,7 @@ function analyze($file) {
     foreach ($words as $word) {
         $word = '_' . strtolower($word) . '_';
         $length = strlen($word);
-        for ($i = 1; $i <= min(N_GRAM_LENGTH, $length); $i++) {
+        for ($i = N_GRAM_MIN_LENGTH; $i <= min(N_GRAM_MAX_LENGTH, $length); $i++) {
             for ($j = 0; $j <= $length - $i; $j++) {
                 $token = substr($word, $j, $i);
                 if (trim($token, '_'))
