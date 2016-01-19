@@ -1,0 +1,2 @@
+PHP TextCat is a PHP implementation of the text categorization (TextCat) algorithm presented in Cavnar, W. B. and J. M. Trenkle, `N-Gram-Based Text Categorization'.
+Used here as a language guesser / language identification tool / language detection.
